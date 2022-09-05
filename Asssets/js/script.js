@@ -2,7 +2,7 @@
 let cityName = document.getElementById("city-name");
 let todaysDate = moment().format("MMM Do YY");
 let cityDataHTML = document.getElementById("city-data");
-let clearSecondDashboard = document.getElementById("clearSecondDashboard");
+let buttonsSection = document.getElementById("buttons-section");
 
 // ---- API Keys ----
 const APIKey = "2e24842b55023e6c9f9d2387841f4aa7";
@@ -11,10 +11,13 @@ let firstAPIList = [];
 let myData = [];
 let forecast = [];
 let next5Days = [];
-let currentCity = [];
+let currentCity;
+let citiesLocalStorageList = [];
+let localStorageCities;
 
-// Retrieve info from API
+// Retrieve info from the first API
 function getAPIData(APIKey, cityName) {
+  firstAPIList = [];
   const request = new XMLHttpRequest();
   request.open(
     "GET",
@@ -26,6 +29,7 @@ function getAPIData(APIKey, cityName) {
   request.send();
   request.onload = () => {
     if (request.status == 200) {
+      firstAPIList = [];
       firstAPIList.push(JSON.parse(request.response));
     } else {
       console.log(`error ${request.status}`);
@@ -34,6 +38,7 @@ function getAPIData(APIKey, cityName) {
   };
 }
 
+// Retrieve data from the second API
 function getSecondAPIData(APIKey) {
   let lat = firstAPIList[0].coord["lat"];
   let lon = firstAPIList[0].coord["lon"];
@@ -45,8 +50,8 @@ function getSecondAPIData(APIKey) {
   request.send();
   request.onload = () => {
     if (request.status == 200) {
+      myData = [];
       myData.push(JSON.parse(request.response));
-      console.log("This is my data", myData);
     } else {
       console.log(`error ${request.status}`);
     }
@@ -54,9 +59,11 @@ function getSecondAPIData(APIKey) {
   };
 }
 
+// Get the city once the user hits the button "search" on the webpage
 function getCity() {
-  // Clear the list of current city and push it later   
-  currentCity = []
+  // Clear the list of current city and push it later
+  currentCity = [];
+  chosenCity = []
   // Get the search button using DOM
   let searchButton = document.getElementById("search-button");
   // Get the previous element which is the user input of the city
@@ -64,122 +71,110 @@ function getCity() {
   // Get the city name
   cityName = cityName.value;
   chosenCity.push(cityName);
-  // Push the value into the array
-  console.log(chosenCity);
-  currentCity.push(cityName)
+  // Push the value into the array this variable is being used to create first and second dashboard
+  currentCity = cityName
   // Call the get APIData function so we can see the API with the desired city.
-  for (let i = 0; i < chosenCity.length; i++) {
-    getAPIData(APIKey, cityName);
-    citiesSaved();
-  }
+  getAPIData(APIKey, cityName);
+  citiesSaved();
 }
 
+// Fills the first dashboard
 function writeFirstDashboard() {
-    // Write the name of the city
-    cityName.textContent = currentCity[0] + " " + todaysDate + "⛅";
-    // Creating the HTML in the page
-    createTagElementsHTMLFirstDashboard();
+  // Write the name of the city
+  cityName.textContent = currentCity + " " + todaysDate + "⛅";
+  // Creating the HTML in the page
+  createTagElementsHTMLFirstDashboard();
 }
 
+// Complement to the function "writeFirstDashboard"
 function createTagElementsHTMLFirstDashboard() {
-  // Creating UL elements for the data of the city (first div)
-  let ulCityData = document.createElement("ul");
-  // Appending ulCityData to the father element
-  cityDataHTML.append(ulCityData);
   // --- creating LIs elements for the UL ---
   // LI- Temperature
-  let liTemperature = document.createElement("li");
+  let liTemperature = document.getElementById("li-temp");
   liTemperature.textContent = "Temp: " + myData[0].current["temp"];
-  // Appending liTemperature to ulcityData
-  liTemperature.remove();
-  ulCityData.append(liTemperature);
   // LI- wind
-  let liWind = document.createElement("li");
+  let liWind = document.getElementById("li-wind");
   liWind.textContent = "Wind: " + myData[0].current["wind_speed"] + "MPH";
-  // Appending liTemperature to ulcityData
-  ulCityData.append(liWind);
   // LI- Humidity
-  let liHumidity = document.createElement("li");
+  let liHumidity = document.getElementById("li-humidity");
   liHumidity.textContent = "Humidity: " + myData[0].current["humidity"] + "%";
-  // Appending liTemperature to ulcityData
-  ulCityData.append(liHumidity);
   // LI- UVIndex
-  let liUVIndex = document.createElement("li");
+  let liUVIndex = document.getElementById("li-uvindex");
   liUVIndex.textContent = "UV Index: " + myData[0].current["uvi"] + "%";
-  // Appending liTemperature to ulcityData
-  ulCityData.append(liUVIndex);
   writeSecondDashboard();
 }
 
+// Fills the second dashboard
 function writeSecondDashboard() {
   for (let i = 0; i < 5; i++) {
     let nextDay = document.getElementById(`day${i}`);
     let weatherForecast = myData[0].daily[i];
-    console.log(weatherForecast);
-    // Creating Span element
-    let span = document.createElement("span");
-    span.classList.add("badge", "badge-secondary");
-    nextDay.append(span);
-    // The div that will contain all my info
-    let divInfo = document.createElement("div");
-    span.append(divInfo);
     // h2 Element inside of the div
-    let h2Title = document.createElement("h4");
-    h2Title.classList.add("bold");
-    divInfo.append(h2Title);
+    let h4Title = document.getElementById(`second-dashboard-h4-${i}`);
     // Grabbing the following days
     let followingDays = moment().add(i + 1, "days");
     // Writing the days in the spans
-    h2Title.textContent = followingDays.format("L");
-
-    // Creating a ul that will contain the data needed for each span
-    let ulInfo = document.createElement("ul");
-    divInfo.append(ulInfo);
-
-    // Creating li for the icon
+    h4Title.textContent = followingDays.format("L");
+    // Create!!! li for the icon
     // TODO: Create the logic
-
     // Creating li for the temp
-    let liTemp = document.createElement("li");
+    let liTemp = document.getElementById(`second-dashboard-litemp-${i}`);
     liTemp.textContent = "Temp: " + weatherForecast.temp["day"] + "°F";
-    divInfo.append(liTemp);
     // Creating li for the wind
-    let liWind = document.createElement("li");
+    let liWind = document.getElementById(`second-dashboard-liwind-${i}`);
     liWind.textContent = "Wind: " + weatherForecast.wind_speed + "MPH";
-    divInfo.append(liWind);
     // Creating li for the humidity
-    let liHumidity = document.createElement("li");
+    let liHumidity = document.getElementById(
+      `second-dashboard-lihumidity-${i}`
+    );
     liHumidity.textContent = "Humidity: " + weatherForecast.humidity + "%";
-    divInfo.append(liHumidity);
   }
 }
 
 // TODO: I'd also like to know how to save the data so I can use the memory of the browser
 
-// store the cities saved
+// store the cities saved in local storage as a list
 function citiesSaved() {
   let currentCity = localStorage.getItem("city");
   let savedCities = currentCity ? JSON.parse(currentCity) : [];
-  console.log(savedCities);
-  for (let i = 0; i < chosenCity.length; i++)
-    savedCities.push({
-      city: chosenCity[i],
-    });
-  localStorage.setItem("City", JSON.stringify(savedCities));
+  for (let i = 0; i < chosenCity.length; i++) {
+    if (chosenCity.includes(chosenCity[i])) {
+      savedCities.push({
+        city: chosenCity[i],
+      });
+    }
+  localStorage.setItem("city", JSON.stringify(savedCities));
+  localStorageCities = localStorage.getItem("city");
+  console.log(localStorageCities)
+  localStorageCities = JSON.parse(localStorageCities)
+  createButtonsLocalStorage(localStorageCities);
 }
 
-// Clear the dashboard every time you enter a new city
-function clearDashboard() {
-  cityDataHTML.innerHTML = `<h1 class="text-center" id="city-name">Once you search your city, this will change</h1>`;
-  console.log(cityDataHTML);
-  clearDashboard.innerHTML = `5-Day Forecast:
-  <section class="row align-items-start">
-    <div class="col forecast bg-primary text-white margin-size" id="day0"></div>
-    <div class="col forecast bg-primary text-white margin-size" id="day1"></div>
-    <div class="col forecast bg-primary text-white margin-size" id="day2"></div>
-    <div class="col forecast bg-primary text-white margin-size" id="day3"></div>
-    <div class="col forecast bg-primary text-white margin-size" id="day4"></div>
-  </section>`;
+function createButtonsLocalStorage(localStorageCities) {
+  let lastElement = localStorageCities[localStorageCities.length - 1]
+  buttonsSection.innerHTML += `<button type="button" class="btn btn-primary buttons-local-storage"  onclick="clickButton('${lastElement.city}')">
+  ${lastElement.city}
+  </button>`;
+}}
+
+function clickButton(cityName) {
+  console.log('hiiiii')
+  // let cityButton = document.getElementById("city-button");
+  // let cityName = this.value();
+  console.log(cityName)
+  currentCity = cityName
+  getAPIData(APIKey, cityName);
+}
+
+let my_list = []
+
+let CurrentLocalStorage = JSON.parse(localStorage.getItem("city"));
+
+for(let i = 0; i < CurrentLocalStorage.length; i++) {
+  console.log(CurrentLocalStorage[i])
+  buttonsSection.innerHTML += `<button type="button" class="btn btn-primary buttons-local-storage"  onclick="clickButton('${CurrentLocalStorage[i].city}')">
+  ${CurrentLocalStorage[i].city}
+  </button>`;
 }
 
 // Save newly searched cities into a list in local storage
