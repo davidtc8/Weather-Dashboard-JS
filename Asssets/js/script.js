@@ -100,14 +100,20 @@ function createTagElementsHTMLFirstDashboard() {
   liHumidity.textContent = "Humidity: " + myData[0].current["humidity"] + "%";
   // LI- UVIndex
   let liUVIndex = document.getElementById("li-uvindex");
-  liUVIndex.textContent = "UV Index: " + myData[0].current["uvi"] + "%";
+  liUVIndex.textContent = "UV Index: "
+  liUVIndex.textContent += myData[0].current["uvi"] + "%";
+  liUVIndex.classList.add("btn", "btn-primary");
   writeSecondDashboard();
 }
 
 // Fills the second dashboard
 function writeSecondDashboard() {
+  console.log(myData[0])
+  const boxes = document.querySelectorAll('.margin-size');
+  boxes.forEach(box => {
+    box.style.visibility = 'visible';
+  });
   for (let i = 0; i < 5; i++) {
-    let nextDay = document.getElementById(`day${i}`);
     let weatherForecast = myData[0].daily[i];
     // h2 Element inside of the div
     let h4Title = document.getElementById(`second-dashboard-h4-${i}`);
@@ -115,11 +121,20 @@ function writeSecondDashboard() {
     let followingDays = moment().add(i + 1, "days");
     // Writing the days in the spans
     h4Title.textContent = followingDays.format("L");
-    // Create!!! li for the icon
-    // TODO: Create the logic
     // Creating li for the temp
     let liTemp = document.getElementById(`second-dashboard-litemp-${i}`);
     liTemp.textContent = "Temp: " + weatherForecast.temp["day"] + "°F";
+    // Icon Logic
+    let liIcon = document.getElementById(`second-dashboard-liicon-${i}`)
+    if (weatherForecast.clouds > 0 && weatherForecast.clouds < 32) {
+      liIcon.textContent = "🌞"
+    } else if (weatherForecast.clouds > 32 && weatherForecast.clouds < 55) {
+      liIcon.textContent = "⛅"
+    } else if (weatherForecast.clouds > 55 && weatherForecast.clouds < 70) {
+      liIcon.textContent = "☁️"
+    } else {
+      liIcon.textContent = "🌧️"
+    }
     // Creating li for the wind
     let liWind = document.getElementById(`second-dashboard-liwind-${i}`);
     liWind.textContent = "Wind: " + weatherForecast.wind_speed + "MPH";
