@@ -6,11 +6,28 @@
 
 body {
     line-height: 1;
-    background-color: #F0EBE3;
+    background-color: #0F3460;
   }
+
+.header-title {
+    background-color: #16213E;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #EBC7E8;
+}
+
+.myh1 {
+    font: revert; 
+    font-size: 50px;
+}
 
 div {
     margin-top: 10px;
+    color: #EBC7E8;
 }
 
 input {
@@ -25,13 +42,13 @@ input {
 
 /* box inside the divs */
 .box-div {
-    padding: 10px;
-    border: 1px solid black;
-    margin: 5px;
+    border: 2px solid #EBC7E8;
+    margin-top: 20px;
 }
 
 /* Removing circle from the li */
 li {
+    margin-right: 100px;
     list-style-type: none;
     margin-bottom: 30px;
     font-size: medium;
@@ -39,12 +56,13 @@ li {
 
 /* spans in the second dashboard */
 .margin-size {
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-left: 15px;
     margin-top: 10px;
+    visibility:collapse;
 }
 
 .bold {
+    text-align: left;
     font-weight: bold;
     font-size: large;
 }
@@ -56,4 +74,28 @@ li {
     width: 75%;
     height: 50px;
     margin-left: 10%;
+}
+
+.icons{
+    font-size: 40px;
+} 
+
+/* Mobile design */
+@media (max-width: 800px) {
+    h4 {
+        margin-bottom: 25px;
+    }
+
+    ol, ul {
+        padding-left: 0rem;
+    }
+
+    .margin-size {
+        margin-left: 0px;
+        margin-top: 20px;
+    }
+
+    .myh1 {
+        font-size: 30px;
+    }
 }
