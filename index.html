@@ -23,8 +23,10 @@
   </head>
   <body>
     <!-- Header -->
-    <header class="jumbotron">
-      <h1 class="h1-header display-5">Weather Dashboard</h1>
+    <header class="jumbotron header-title">
+      <h1 class="h1-header display-5 myh1" >
+        Weather Dashboard 🌞
+      </h1>
     </header>
     <!-- Div Columns -->
     <section class="container-fluid">
@@ -37,8 +39,11 @@
           <button type="button" class="btn btn-primary" id="search-button" onclick="getCity()">
             Search
           </button>
-          <div id="buttons-section" style="background-color: #000000; height: 1px; width: 100%">
+          <div style="background-color: #EBC7E8; height: 2px; width: 100%">
             <!-- <button type="button" class="btn btn-primary buttons-local-storage">Primary</button> -->
+          </div>
+          <div id="buttons-section">
+
           </div>
         </div>
         <!-- Next Column -->
@@ -52,25 +57,30 @@
                 <li id="li-temp"></li>
                 <li id="li-wind"></li>
                 <li id="li-humidity"></li>
-                <li id="li-uvindex"></li>
+                <li id="li-uvindex">
+                  <h1 id="uvindex-button">
+                    
+                  </h1>
+                </li>
               </ul>
             </div>
             <div class="col-md-12 col-sm-12 box-div" id="clearSecondDashboard">
               5-Day Forecast:
               <section class="row align-items-start">
-                <div class="col forecast bg-primary text-white margin-size" id="day0">
+                <div class="col-lg-2 col-md-12 col-sm-12 forecast bg-primary text-white margin-size" id="day0">
                   <span class="badge badge-secondary" id="second-dashboard-span">
                     <div>
                       <h4 id="second-dashboard-h4-0" class="bold"></h4>
                       <ul>
                         <li id="second-dashboard-litemp-0"></li>
+                        <li id="second-dashboard-liicon-0" class="icons"></li>
                         <li id="second-dashboard-liwind-0"></li>
                         <li id="second-dashboard-lihumidity-0"></li>
                       </ul>
                     </div>
                   </span>
                 </div>
-                <div class="col forecast bg-primary text-white margin-size" id="day1">
+                <div class="col-lg-2 col-md-12 col-sm-12 forecast bg-primary text-white margin-size" id="day1">
                   <span
                     class="badge badge-secondary"
                     id="second-dashboard-span"
@@ -79,42 +89,46 @@
                       <h4 id="second-dashboard-h4-1" class="bold"></h4>
                       <ul>
                         <li id="second-dashboard-litemp-1"></li>
+                        <li id="second-dashboard-liicon-1" class="icons"></li>
                         <li id="second-dashboard-liwind-1"></li>
                         <li id="second-dashboard-lihumidity-1"></li>
                       </ul>
                     </div>
                   </span>
                 </div>
-                <div class="col forecast bg-primary text-white margin-size" id="day2">
+                <div class="col-lg-2 col-md-12 col-sm-12 forecast bg-primary text-white margin-size" id="day2">
                   <span class="badge badge-secondary" id="second-dashboard-span">
                     <div>
                       <h4 id="second-dashboard-h4-2" class="bold"></h4>
                       <ul>
                         <li id="second-dashboard-litemp-2"></li>
+                        <li id="second-dashboard-liicon-2" class="icons"></li>
                         <li id="second-dashboard-liwind-2"></li>
                         <li id="second-dashboard-lihumidity-2"></li>
                       </ul>
                     </div>
                   </span>
                 </div>
-                <div class="col forecast bg-primary text-white margin-size" id="day3">
+                <div class="col-lg-2 col-md-12 col-sm-12 forecast bg-primary text-white margin-size" id="day3">
                   <span class="badge badge-secondary" id="second-dashboard-span">
                     <div>
                       <h4 id="second-dashboard-h4-3" class="bold"></h4>
                       <ul>
                         <li id="second-dashboard-litemp-3"></li>
+                        <li id="second-dashboard-liicon-3" class="icons"></li>
                         <li id="second-dashboard-liwind-3"></li>
                         <li id="second-dashboard-lihumidity-3"></li>
                       </ul>
                     </div>
                   </span>
                 </div>
-                <div class="col forecast bg-primary text-white margin-size" id="day4">
+                <div class="col-lg-2 col-md-12 col-sm-12 forecast bg-primary text-white margin-size" id="day4">
                   <span class="badge badge-secondary" id="second-dashboard-span">
                     <div>
                       <h4 id="second-dashboard-h4-4" class="bold"></h4>
                       <ul>
                         <li id="second-dashboard-litemp-4"></li>
+                        <li class="icons" id="second-dashboard-liicon-4"></li>
                         <li id="second-dashboard-liwind-4"></li>
                         <li id="second-dashboard-lihumidity-4"></li>
                       </ul>
