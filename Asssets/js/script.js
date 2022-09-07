@@ -100,8 +100,7 @@ function createTagElementsHTMLFirstDashboard() {
   liHumidity.textContent = "Humidity: " + myData[0].current["humidity"] + "%";
   // LI- UVIndex
   let liUVIndex = document.getElementById("li-uvindex");
-  liUVIndex.textContent = "UV Index: "
-  liUVIndex.textContent += myData[0].current["uvi"] + "%";
+  liUVIndex.textContent = "UV Index: " + myData[0].current["uvi"] + "%";
   liUVIndex.classList.add("btn", "btn-primary");
   writeSecondDashboard();
 }
